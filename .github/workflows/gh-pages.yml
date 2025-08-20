@@ -1,0 +1,34 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master   # Se ejecutará cuando hagas push a master
+
+permissions:
+  contents: write   # Necesario para publicar en gh-pages
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ⚡
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18   # Ajusta la versión según tu Angular (ej. 20 si usas Angular 18+)
+
+      - name: Install dependencies 📦
+        run: npm ci   # usa ci en lugar de install para builds más limpios
+
+      - name: Build Angular app 🔨
+        run: npm run build -- --configuration production --base-href="/invitacion-boda/"
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/invitacion-boda
