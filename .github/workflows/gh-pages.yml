@@ -20,18 +20,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies 📦
         run: npm ci
 
-      - name: Build Angular app 🔨
-        run: npm run build -- --configuration production --base-href="/invitacion-boda/"
+      # (Opcional) Añadir pasos de lint/test aquí
 
-      - name: Copy index.html to 404.html for Angular routing
-        run: cp dist/invitacion-boda/browser/index.html dist/invitacion-boda/browser/404.html
+      - name: Build Angular app 🔨
+        run: |
+          echo "Building with base href '/' para dominio raíz"
+          npm run build -- --configuration production --base-href=/
+
+      - name: SPA Fallback (404.html) 🛣️
+        run: |
+          cp dist/invitacion-boda/browser/index.html dist/invitacion-boda/browser/404.html
+
+      - name: Add CNAME 🌐
+        run: |
+          echo "www.invita-t.com" > dist/invitacion-boda/browser/CNAME
 
       - name: Deploy to GitHub Pages 🚀
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/invitacion-boda/browser
+          publish_dir: dist/invitacion-boda/browser
+          # Puedes añadir: enable_jekyll: true/false según necesidad (por defecto se crea .nojekyll)
