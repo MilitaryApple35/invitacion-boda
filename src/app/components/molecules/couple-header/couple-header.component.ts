@@ -23,7 +23,7 @@ import { DividerComponent } from '../../atoms/divider/divider.component';
           [text]="brideName"
           size="xl"
           color="gold"
-          [elegant]="true">
+          [script]="true">
         </app-title>
 
         <div class="my-4">
@@ -32,7 +32,8 @@ import { DividerComponent } from '../../atoms/divider/divider.component';
             size="xl"
             color="gold"
             [italic]="true"
-            [center]="true">
+            [center]="true"
+            [script]="true">
           </app-text>
         </div>
 
@@ -40,7 +41,7 @@ import { DividerComponent } from '../../atoms/divider/divider.component';
           [text]="groomName"
           size="xl"
           color="gold"
-          [elegant]="true">
+          [script]="true">
         </app-title>
       </div>
 

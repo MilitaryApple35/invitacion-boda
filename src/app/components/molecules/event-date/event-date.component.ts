@@ -46,6 +46,18 @@ import { DividerComponent } from '../../atoms/divider/divider.component';
           weight="medium"
           [center]="true">
         </app-text>
+
+        <!-- Hora del evento -->
+        <div class="mt-4 pt-3 border-t border-gold-200">
+          <div class="text-3xl mb-2">🕐</div>
+          <app-text
+            [content]="formattedTime"
+            size="xl"
+            color="gold"
+            weight="bold"
+            [center]="true">
+          </app-text>
+        </div>
       </div>
     </div>
   `
@@ -66,5 +78,13 @@ export class EventDateComponent {
 
   get year(): string {
     return this.eventDate.getFullYear().toString();
+  }
+
+  get formattedTime(): string {
+    return this.eventDate.toLocaleTimeString('es-ES', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    }).toUpperCase();
   }
 }

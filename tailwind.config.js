@@ -20,8 +20,9 @@ module.exports = {
         }
       },
       fontFamily: {
-        'serif': ['Playfair Display', 'serif'],
-        'body': ['Crimson Text', 'serif'],
+        'serif': ['Poppins', 'sans-serif'],
+        'body': ['Poppins', 'sans-serif'],
+        'script': ['Pinyon Script', 'cursive'],
       },
     },
   },

@@ -9,6 +9,8 @@ import { TextComponent } from '../../atoms/text/text.component';
 import { CountdownTimerComponent } from '../../atoms/countdown-timer/countdown-timer.component';
 import { LocationMapComponent } from '../../molecules/location-map/location-map.component';
 import { EventDateComponent } from '../../molecules/event-date/event-date.component';
+import { CouplePhotoComponent } from '../../atoms/couple-photo/couple-photo.component';
+import { RsvpWhatsappComponent } from '../../molecules/rsvp-whatsapp/rsvp-whatsapp.component';
 
 @Component({
   selector: 'app-wedding-invitation',
@@ -23,18 +25,43 @@ import { EventDateComponent } from '../../molecules/event-date/event-date.compon
     TextComponent,
     CountdownTimerComponent,
     LocationMapComponent,
-    EventDateComponent
+    EventDateComponent,
+    CouplePhotoComponent,
+    RsvpWhatsappComponent
   ],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-gold-50 to-gold-100 p-4">
-      <div class="max-w-2xl mx-auto">
-        <app-card padding="xl" background="white" [shadow]="true">
+    <!-- Fondo responsivo con fotos -->
+    <div class="min-h-screen relative overflow-hidden">
 
-          <!-- Encabezado de los novios -->
-          <app-couple-header
-            brideName="Erika Tirado Luna"
-            groomName="Edwin Esaú Zatarain López">
-          </app-couple-header>
+      <!-- Fondo para desktop -->
+      <div class="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
+           [style.background-image]="'url(' + desktopBackground + ')'">
+      </div>
+
+      <!-- Fondo para móvil -->
+      <div class="block md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
+           [style.background-image]="'url(' + mobileBackground + ')'">
+      </div>
+
+      <!-- Overlay dorado semi-transparente -->
+      <div class="absolute inset-0 bg-gradient-to-br from-gold-50/80 to-gold-100/80"></div>
+
+      <!-- Contenido principal -->
+      <div class="relative z-10 p-4">
+        <div class="max-w-2xl mx-auto">
+          <app-card padding="xl" background="white" [shadow]="true">
+
+            <!-- Foto circular de los novios -->
+            <app-couple-photo
+              [photoSrc]="couplePhoto"
+              altText="Erika y Edwin">
+            </app-couple-photo>
+
+            <!-- Encabezado de los novios -->
+            <app-couple-header
+              brideName="Erika Tirado Luna"
+              groomName="Edwin Esaú Zatarain López">
+            </app-couple-header>
 
           <!-- Fecha del evento -->
           <app-event-date [eventDate]="weddingDate"></app-event-date>
@@ -102,6 +129,15 @@ import { EventDateComponent } from '../../molecules/event-date/event-date.compon
               titleSize="small"
               textSize="sm">
             </app-info-section>
+
+            <app-info-section
+              title="Padrinos de Velación"
+              [content]="weddingSponsors"
+              titleSize="small"
+              textSize="sm"
+              class="md:col-span-2"
+            >
+            </app-info-section>
           </div>
 
           <app-divider color="gold" [decorative]="true" margin="lg"></app-divider>
@@ -124,6 +160,15 @@ import { EventDateComponent } from '../../molecules/event-date/event-date.compon
             </app-text>
           </div>
 
+          <!-- <app-divider color="gold" [decorative]="true" margin="lg"></app-divider> -->
+
+          <!-- Confirmación de asistencia por WhatsApp -->
+          <!-- <app-rsvp-whatsapp
+            [confirmationDate]="rsvpDeadline"
+            [whatsappContacts]="whatsappContacts"
+            [suggestedMessage]="rsvpMessage">
+          </app-rsvp-whatsapp> -->
+
           <app-divider color="gold" [decorative]="true" margin="lg"></app-divider>
 
           <!-- Mensaje final -->
@@ -141,11 +186,17 @@ import { EventDateComponent } from '../../molecules/event-date/event-date.compon
         </app-card>
       </div>
     </div>
+    </div>
   `
 })
 export class WeddingInvitationComponent {
+  // Fotos para los fondos y la imagen principal
+  desktopBackground = 'assets/photo1.jpeg'; // Fondo para desktop
+  mobileBackground = 'assets/photo1.jpeg';  // Fondo para móvil
+  couplePhoto = 'assets/photo3.jpeg';       // Foto circular principal
+
   // Fecha de la boda - 2025 (ajustar según la fecha real)
-  weddingDate = new Date('2025-12-15T16:00:00'); // 4 PM del día de la boda
+  weddingDate = new Date('2025-11-22T16:00:00'); // 4 PM del día de la boda
 
   // Coordenadas exactas proporcionadas: 23°26'46.3"N 106°31'57.7"W
   locationCoordinates = {
@@ -172,4 +223,19 @@ export class WeddingInvitationComponent {
     'Bricia Zatarain López',
     'Juan Pablo Lizárraga Tiznado'
   ];
+
+  weddingSponsors = [
+    'Pamela Osuna',
+    'Luis A. Zamudio'
+  ];
+
+  // Configuración para confirmación de asistencia por WhatsApp
+  rsvpDeadline = '10 de Diciembre, 2025';
+
+  whatsappContacts = [
+    { name: 'Erika (Novia)', phone: '+521234567890' },
+    { name: 'Edwin (Novio)', phone: '+521234567891' }
+  ];
+
+  rsvpMessage = '¡Hola! Confirmo mi asistencia a la boda de Erika y Edwin. ¡Nos vemos ahí! 💕';
 }

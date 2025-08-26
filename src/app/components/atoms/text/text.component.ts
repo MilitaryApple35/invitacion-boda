@@ -18,6 +18,7 @@ export class TextComponent {
   @Input() weight: 'normal' | 'medium' | 'semibold' | 'bold' = 'normal';
   @Input() italic: boolean = false;
   @Input() center: boolean = false;
+  @Input() script: boolean = false;
 
   get textClasses(): string {
     const sizeClasses = {
@@ -45,6 +46,12 @@ export class TextComponent {
     const italicClass = this.italic ? 'italic' : '';
     const centerClass = this.center ? 'text-center' : '';
 
-    return `${sizeClasses[this.size]} ${colorClasses[this.color]} ${weightClasses[this.weight]} ${italicClass} ${centerClass} font-serif`.trim();
+    // Lógica de fuente: script tiene prioridad, luego serif por defecto
+    const fontClass = this.script ? 'font-script' : 'font-serif';
+
+    // Si es script, usar peso normal para mejor apariencia
+    const finalWeight = this.script ? 'font-normal' : weightClasses[this.weight];
+
+    return `${sizeClasses[this.size]} ${colorClasses[this.color]} ${finalWeight} ${italicClass} ${centerClass} ${fontClass}`.trim();
   }
 }

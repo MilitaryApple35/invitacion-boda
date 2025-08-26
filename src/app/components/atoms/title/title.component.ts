@@ -16,6 +16,7 @@ export class TitleComponent {
   @Input() size: 'small' | 'medium' | 'large' | 'xl' = 'medium';
   @Input() color: 'gold' | 'dark' | 'light' = 'dark';
   @Input() elegant: boolean = false;
+  @Input() script: boolean = false;
 
   get titleClasses(): string {
     const sizeClasses = {
@@ -31,8 +32,15 @@ export class TitleComponent {
       light: 'text-white'
     };
 
-    const elegantClass = this.elegant ? 'font-serif' : 'font-sans';
+    let fontClass = 'font-sans';
+    if (this.script) {
+      fontClass = 'font-script';
+    } else if (this.elegant) {
+      fontClass = 'font-serif';
+    }
 
-    return `${sizeClasses[this.size]} ${colorClasses[this.color]} ${elegantClass} text-center font-bold`;
+    const weightClass = this.script ? 'font-normal' : 'font-bold';
+
+    return `${sizeClasses[this.size]} ${colorClasses[this.color]} ${fontClass} text-center ${weightClass}`;
   }
 }
