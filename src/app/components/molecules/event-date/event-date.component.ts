@@ -11,7 +11,7 @@ import { DividerComponent } from '../../atoms/divider/divider.component';
   template: `
     <div class="text-center bg-gold-100 p-6 rounded-lg border-2 border-gold-300 mb-6">
       <div class="mb-4">
-        <div class="text-4xl mb-2">📅</div>
+        <!-- <div class="text-4xl mb-2">📅</div> -->
         <app-title
           text="Fecha del Evento"
           size="large"
